@@ -1,0 +1,28 @@
+plugins {
+    id 'scala' // scala 插件声明（基于开发工具插件）
+    id 'io.gatling.gradle' version '3.9.5.6'  // 基于 gradle 的 gatling 框架插件版本声明
+}
+//仓库源配置
+repositories {
+  // 使用 maven 中心仓库源
+  mavenCentral()
+}
+// gatling 配置
+gatling {
+  // logback root level，如果配置文件夹中不存在 logback.xml，则默认 Gatling 控制台日志级别
+  logLevel = 'WARN' 
+
+  // 执行记录 HTTP 请求的详细程度
+  // set to 'ALL' for all HTTP traffic in TRACE, 'FAILURES' for failed HTTP traffic in DEBUG
+  logHttp = 'FAILURES' 
+
+  // Simulations 过滤器
+  simulations = {
+      include "**/simulation/*.scala"
+  }
+}
+// 依赖配置
+dependencies { 
+ // 图表库，用于生成报告图表
+ gatling 'io.gatling.highcharts:gatling-charts-highcharts:3.8.3'
+ }
