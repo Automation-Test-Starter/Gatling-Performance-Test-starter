@@ -44,8 +44,16 @@
         - [每秒请求数图](#每秒请求数图)
         - [每秒响应数图](#每秒响应数图)
       - [单个请求分析报告](#单个请求分析报告)
+    - [性能场景设置](#性能场景设置)
+      - [Injection 注入](#injection-注入)
+        - [什么是 Injection](#什么是-injection)
+        - [常用 Injection 场景](#常用-injection-场景)
+          - [Open Model 开放模型场景](#open-model-开放模型场景)
+          - [Closed Model 闭合模型场景](#closed-model-闭合模型场景)
+        - [Meta DSL 场景](#meta-dsl-场景)
+        - [Concurrent Scenarios 并发场景](#concurrent-scenarios-并发场景)
+        - [其他场景](#其他场景)
     - [录制脚本 Recorder](#录制脚本-recorder)
-    - [性能测试策略](#性能测试策略)
 
 ## Gatling 介绍
 
@@ -497,10 +505,120 @@ stats 显示了所有请求具体的成功失败情况 OK 代表成功，KO 代�
 
 Details 页面主要展示了每个请求的统计数据，与全局报告相似地包括了响应时间分布图，响应时间百分位图，每秒请求数图，每秒响应数图。不同的是最底下有一张图是描述单个请求相对于全局所有请求的响应时间。该图横坐标是每秒全局所有请求数，纵坐标是单个请求的响应时间。
 
+### 性能场景设置
+
+#### Injection 注入
+
+##### 什么是 Injection
+
+在 Gatling 性能测试中，"Injection"是指将虚拟用户（或负载）引入系统的一种方式。它定义了模拟用户如何被引入测试场景，包括用户的数量、速率和方式。Injection 是 Gatling 中用于控制负载和并发度的关键概念，允许你模拟不同的用户行为和负载模型。
+
+用户注入配置文件的定义是通过 injectOpen 和 injectClosed 方法（Scala 中的 inject）完成的。此方法将按顺序处理的注入步骤序列作为参数。每个步骤都定义了一组用户，以及如何将这些用户注入到场景中。
+
+官网更多介绍：<https://gatling.io/docs/gatling/reference/current/core/injection/>
+
+##### 常用 Injection 场景
+
+###### Open Model 开放模型场景
+
+```scala
+setUp(
+  scn.inject(
+    nothingFor(4), // 1
+    atOnceUsers(10), // 2
+    rampUsers(10).during(5), // 3
+    constantUsersPerSec(20).during(15), // 4
+    constantUsersPerSec(20).during(15).randomized, // 5
+    rampUsersPerSec(10).to(20).during(10.minutes), // 6
+    rampUsersPerSec(10).to(20).during(10.minutes).randomized, // 7
+    stressPeakUsers(1000).during(20) // 8
+  ).protocols(httpProtocol)
+)
+```
+
+1. nothingFor(duration)：设置一段停止的时间，这段时间什么都不做
+2. atOnceUsers(nbUsers)：立即注入一定数量的虚拟用户
+3. rampUsers(nbUsers) during(duration)：在指定时间内，设置一定数量逐步注入的虚拟用户
+4. constantUsersPerSec(rate) during(duration)：定义一个在每秒钟恒定的并发用户数，持续指定的时间
+5. constantUsersPerSec(rate) during(duration) randomized：定义一个在每秒钟围绕指定并发数随机增减的并发，持续指定时间
+6. rampUsersPerSec(rate1) to (rate2) during(duration)：定义一个并发数区间，运行指定时间，并发增长的周期是一个规律的值
+7. rampUsersPerSec(rate1) to(rate2) during(duration) randomized：定义一个并发数区间，运行指定时间，并发增长的周期是一个随机的值
+8. stressPeakUsers(nbUsers).during(duration) ：按照拉伸到给定持续时间的[阶跃函数](https://en.wikipedia.org/wiki/Heaviside_step_function)的平滑近似注入给定数量的用户。
+
+###### Closed Model 闭合模型场景
+
+```scala
+setUp(
+  scn.inject(
+    constantConcurrentUsers(10).during(10), // 1
+    rampConcurrentUsers(10).to(20).during(10) // 2
+  )
+)
+```
+
+1. constantConcurrentUsers(nbUsers).during(duration) ：注入以使系统中的并发用户数恒定
+2. rampConcurrentUsers(fromNbUsers).to(toNbUsers).during(duration) ：注入，使系统中的并发用户数从一个数字线性增加到另一个数字
+
+##### Meta DSL 场景
+
+"Meta DSL"是一种特殊的领域特定语言（DSL），用于描述性能测试场景的元数据（metadata）和全局配置。Meta DSL 允许你定义性能测试中的一些全局设置和参数，以影响整个测试过程，而不是特定于某个场景。
+
+可以使用 Meta DSL 的元素以更简单的方式编写测试。如果您想要链接级别和斜坡以达到应用程序的极限（有时称为容量负载测试的测试），您可以使用常规 DSL 手动完成，并使用 map 和 flatMap 进行循环。
+
+- incrementUsersPerSec
+
+```scala
+setUp(
+   // 生成一个开放的工作量注入配置文件
+  // 每秒分别有 10、15、20、25 和 30 个用户到达
+  // 每个级别持续 10 秒
+  // 每级持续 10 秒
+  scn.inject(
+    incrementUsersPerSec(5.0)
+      .times(5)
+      .eachLevelLasting(10)
+      .separatedByRampsLasting(10)
+      .startingFrom(10) // Double
+  )
+```
+
+- incrementConcurrentUsers
+  
+```scala
+setUp(
+  // 生成一个封闭的工作负载注入配置文件
+  // 并发用户分别为 10、15、20、25 和 30 级
+  // 每个级别持续 10 秒
+  // 每级持续 10 秒
+  scn.inject(
+    incrementConcurrentUsers(5)
+      .times(5)
+      .eachLevelLasting(10)
+      .separatedByRampsLasting(10)
+      .startingFrom(10) // Int
+  )
+)
+```
+
+incrementUsersPerSec 用于开放式工作负载，incrementConcurrentUsers 用于封闭式工作负载（用户数/秒与并发用户数）。
+
+separatedByRampsLasting 和 startingFrom 都是可选的。如果您不指定斜坡，测试完成后就会立即从一个级别跳到另一个级别。如果您不指定启动用户数，测试将从 0 个并发用户或每秒 0 个用户开始，并立即进入下一步。
+
+##### Concurrent Scenarios 并发场景
+
+```scala
+setUp(
+  scenario1.inject(injectionProfile1),
+  scenario2.inject(injectionProfile2)
+)
+```
+
+您可以在同一个 setUp 块中配置多个场景同时启动并并发执行。
+
+##### 其他场景
+
+查看官网介绍：<https://gatling.io/docs/gatling/reference/current/core/injection/>
+
 ### 录制脚本 Recorder
-
-> 待补充
-
-### 性能测试策略
 
 > 待补充
