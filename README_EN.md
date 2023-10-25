@@ -132,7 +132,7 @@ gradle gatlingRun
 #### Preparation
 
 - [x] Development tool: VSCode
-- [x] Install Maven, I use Gradle 8.44.
+- [x] Install Maven, I use Maven 3.9.5.
 - [x] JDK version >= 8, I use JDK 19
 
 #### install plugins

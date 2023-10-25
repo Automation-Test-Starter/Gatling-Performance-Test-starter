@@ -133,7 +133,7 @@ gradle gatlingRun
 #### 准备工作
 
 - [x] 开发工具：VSCode
-- [x] 安装 Maven，我使用的 Gradle 8.44
+- [x] 安装 Maven，我使用的 Maven 3.9.5
 - [x] JDK 版本>=8，我使用的 JDK 19
 
 #### 安装插件
