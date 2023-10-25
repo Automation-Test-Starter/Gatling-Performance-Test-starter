@@ -58,6 +58,7 @@
         - [Gradle + Scala 版本](#gradle--scala-版本-1)
         - [Maven + Scala 版本](#maven--scala-版本-1)
     - [录制脚本 Recorder](#录制脚本-recorder)
+  - [参考](#参考)
 
 ## Gatling 介绍
 
@@ -742,3 +743,9 @@ jobs:
 ### 录制脚本 Recorder
 
 > 待补充
+
+## 参考
+
+- galting 官网：<https://gatling.io/>
+- galting 官方文档：<https://gatling.io/docs/gatling/>
+- galting 官方 github: <https://github.com/gatling/>

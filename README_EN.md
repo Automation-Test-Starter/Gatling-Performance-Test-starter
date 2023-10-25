@@ -57,6 +57,7 @@ An introduction to using the gatling tool for performance testing, including env
         - [Gradle + Scala version](#gradle--scala-version)
         - [Maven + Scala version](#maven--scala-version-1)
     - [Recorder](#recorder)
+  - [reference](#reference)
 
 ## Gatling Introduction
 
@@ -742,3 +743,9 @@ jobs:
 ### Recorder
 
 > To be completed
+
+## reference
+
+- galting official website: <https://gatling.io/>
+- galting official documentation: <https://gatling.io/docs/gatling/>
+- galting official github: <https://github.com/gatling/>
