@@ -1,6 +1,6 @@
-# Gatling-performance-test-starter
+<div align="right"><strong><a href="./README.md">🇨🇳中文</a></strong>  | <strong>🇬🇧English</strong></div>
 
-**English** | [中文](/README.md)
+# Gatling-performance-test-starter
 
 An introduction to using the gatling tool for performance testing, including environment setup, project initialization, examples, advanced usage, and more!
 
