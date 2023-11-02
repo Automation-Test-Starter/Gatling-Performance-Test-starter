@@ -1,7 +1,6 @@
-
+<div align="right"><strong>🇨🇳中文</a></strong>  | <strong><a href="./README_EN.md">🇬🇧English</strong></div>
+  
 # Gatling-performance-test-starter
-
-**中文** | [English](/README_EN.md)
 
 一个使用 gatling 工具做性能测试的介绍文档，包含了环境搭建、工程初始化、示例，进阶用法等内容
 
