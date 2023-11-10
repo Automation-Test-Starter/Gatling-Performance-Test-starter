@@ -1,0 +1,30 @@
+repo_name: Automation-Test-Starter/Gatling-Performance-Test-starter
+report_id: c26c773eb430191bb5488556d346c514
+repo_type: Public
+timestamp: '2023-11-10T04:31:05+00:00'
+requested_by: dengnao-tw
+provider: github
+branch: main
+detected_tools_count: 2
+tools:
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source: Repo Metadata
+- name: Gradle
+  description: A powerful build system for the JVM
+  website_url: https://www.gradle.org/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Java Build Tools
+  image_url: https://img.stackshare.io/service/975/gradlephant-social-black-bg.png
+  detection_source: build.gradle
+  last_updated_by: naodeng
+  last_updated_on: 2023-10-18 09:36:08.000000000 Z
