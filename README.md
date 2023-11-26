@@ -111,7 +111,7 @@ git clone git@github.com:gatling/gatling-gradle-plugin-demo-scala.git
 gradle build
 ```
 
-![readme-build](./readme-pic/readme-build.png)
+![readme-build](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-build.png)
 
 - 运行工程中的 demo
 
@@ -121,11 +121,11 @@ gradle gatlingRun
 
 - 查看命令行运行结果
 
-![readme-report](./readme-pic/readme-report.png)
+![readme-report](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report.png)
 
 - 点击命令行报告中的 html 报告链接，并使用浏览器打开，即可查看详细的报告信息
 
-![readme-report1](./readme-pic/readme-report1.png)
+![readme-report1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report1.png)
 
 ### VSCode + Maven + Scala 版本
 
@@ -160,11 +160,11 @@ mvn gatling:test
 
 - 查看命令行运行结果
 
-![readme-report2](./readme-pic/readme-report2.png)
+![readme-report2](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report2.png)
 
 - 点击命令行报告中的 html 报告链接，并使用浏览器打开，即可查看详细的报告信息
 
-![readme-report1](./readme-pic/readme-report1.png)
+![readme-report1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report1.png)
 
 ### IDEA + Gradle + Scala 版本
 
@@ -244,7 +244,7 @@ gradle build
 
 - 初始化完成：完成向导后，Gradle 将在项目目录中生成一个基本的 Gradle 项目结构
   
-![readme-project-tree1](./readme-pic/readme-project-tree1.png)
+![readme-project-tree1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-project-tree1.png)
 
 #### 初始化目录
   
@@ -304,7 +304,7 @@ class demo extends Simulation {
 gradle gatlingRun
 ```
 
-![readme-report3](./readme-pic/readme-report3.png)
+![readme-report3](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report3.png)
 
 ### Maven + Scala 版本
 
@@ -316,7 +316,7 @@ mvn archetype:generate -DgroupId=demo.gatlin.maven -DartifactId=gatling-maven-de
 
 初始化完成：完成向导后，Maven 将在新建项目目录并生成一个基本的 Maven 项目结构
   
-![readme-project-tree2](./readme-pic/readme-project-tree2.png)
+![readme-project-tree2](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-project-tree2.png)
 
 #### 配置项目 pom.xml
 
@@ -431,7 +431,7 @@ class demo extends Simulation {
 mvn gatling:test
 ```
 
-![readme-report3](./readme-pic/readme-report3.png)
+![readme-report3](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report3.png)
 
 ## 进阶用法
 
@@ -444,7 +444,7 @@ mvn gatling:test
 > 性能测试执行结束后打开详细的 html 报告，可以看到详细的性能测试报告；
 > 可通过指标、活跃用户和随时间变化的请求/响应以及分布来分析您的报告
 
-![readme-test-report1](./readme-pic/readme-test-report1.png)
+![readme-test-report1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report1.png)
 
 - 页面中间标题处显示 Simulation 的名字
 - 左侧的列表展示不同类型的报告菜单，可点击切换
@@ -454,7 +454,7 @@ mvn gatling:test
 
 ##### 请求数&响应时间分布图
 
-![readme-test-report2](./readme-pic/readme-test-report2.png)
+![readme-test-report2](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report2.png)
 
 此图表展示了响应时间在标准范围内的分布情况
 左侧的列表显示所有的请求以及请求响应的时间分布，红色代表失败的请求
@@ -464,7 +464,7 @@ mvn gatling:test
 
 ##### 请求标准统计分析图
 
-![readme-test-report3](./readme-pic/readme-test-report3.png)
+![readme-test-report3](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report3.png)
 
 此图表显示了一些标准统计数据，例如全局和每个请求的最小值、最大值、平均值、标准差和百分位数。
 stats 显示了所有请求具体的成功失败情况 OK 代表成功，KO 代表失败，百分比 99th pct 代表对于这一个 API 总的请求中有百分之 99 的请求 response time 是这个数值
@@ -473,31 +473,31 @@ stats 显示了所有请求具体的成功失败情况 OK 代表成功，KO 代�
 
 ##### 活跃用户数统计图
 
-![readme-test-report4](./readme-pic/readme-test-report4.png)
+![readme-test-report4](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report4.png)
 
 此图表展示了活跃用户数指的是在测试时间段内，正在进行请求的用户数。在测试开始时，活跃用户数为 0。当用户开始发送请求时，活跃用户数开始增加。当用户完成请求时，活跃用户数开始减少。活跃用户数的最大值是在测试期间同时发送请求的用户数。
 
 ##### 响应时间分布图
 
-![readme-test-report5](./readme-pic/readme-test-report5.png)
+![readme-test-report5](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report5.png)
 
 此图表显示了响应时间的分布，包括请求成功的响应时间和请求失败的响应时间。
 
 ##### 响应时间百分位对比图
 
-![readme-test-report6](./readme-pic/readme-test-report6.png)
+![readme-test-report6](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report6.png)
 
 此图表显示一段时间内的各种响应时间百分位数，但仅适用于成功的请求。由于失败的请求可能会提前结束或由超时引起，因此它们会对百分位数的计算产生巨大影响。
 
 ##### 每秒请求数图
 
-![readme-test-report7](./readme-pic/readme-test-report7.png)
+![readme-test-report7](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report7.png)
 
 此图表展示了每秒的请求数，包括成功的请求数和失败的请求数。
 
 ##### 每秒响应数图
 
-![readme-test-report8](./readme-pic/readme-test-report8.png)
+![readme-test-report8](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report8.png)
 
 此图表展示了每秒的响应数，包括成功的响应数和失败的响应数。
 
@@ -505,7 +505,7 @@ stats 显示了所有请求具体的成功失败情况 OK 代表成功，KO 代�
 
 > 可点击报告页面上的 details 菜单切换到 details tab 页面，查看单个请求的详细报告
 
-![readme-test-report9](./readme-pic/readme-test-report9.png)
+![readme-test-report9](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report9.png)
 
 Details 页面主要展示了每个请求的统计数据，与全局报告相似地包括了响应时间分布图，响应时间百分位图，每秒请求数图，每秒响应数图。不同的是最底下有一张图是描述单个请求相对于全局所有请求的响应时间。该图横坐标是每秒全局所有请求数，纵坐标是单个请求的响应时间。
 
@@ -682,7 +682,7 @@ jobs:
 - 提交代码：将 gatling.yml 文件添加到仓库中并提交。
 - 查看测试报告：在 GitHub 中，导航到你的仓库。单击上方的 Actions 选项卡，然后单击左侧的 Performance Test 工作流。你应该会看到工作流正在运行，等待执行完成，就可以查看结果。
 
-![readme-github-action-gradle](./readme-pic/readme-github-action-gradle.png)
+![readme-github-action-gradle](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-github-action-gradle.png)
 
 ##### Maven + Scala 版本
 
@@ -737,7 +737,7 @@ jobs:
 - 提交代码：将 gatling.yml 文件添加到仓库中并提交。
 - 查看测试报告：在 GitHub 中，导航到你的仓库。单击上方的 Actions 选项卡，然后单击左侧的 Performance Test 工作流。你应该会看到工作流正在运行，等待执行完成，就可以查看结果。
 
-![readme-github-action-maven](./readme-pic/readme-github-action-maven.png)
+![readme-github-action-maven](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-github-action-maven.png)
 
 ### 录制脚本 Recorder
 
