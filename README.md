@@ -1,111 +1,126 @@
-<div align="right"><strong>🇨🇳中文</a></strong>  | <strong><a href="./README_EN.md">🇬🇧English</strong></div>
-  
-# Gatling-performance-test-starter
+<!-- markdownlint-disable MD041 -->
+<!-- markdownlint-disable MD033 -->
+<div align="right"><strong><a href="./README_ZH.md">🇨🇳中文</a></strong>  | <strong>🇬🇧English</strong></div>
+<!-- markdownlint-disable MD041 -->
+<!-- markdownlint-disable MD033 -->
 
-一个使用 gatling 工具做性能测试的介绍文档，包含了环境搭建、工程初始化、示例，进阶用法等内容
+Gatling-performance-test-starter
+----
 
-- [Gatling-performance-test-starter](#gatling-performance-test-starter)
-  - [Gatling 介绍](#gatling-介绍)
-  - [环境搭建](#环境搭建)
-    - [VSCode + Gradle + Scala 版本](#vscode--gradle--scala-版本)
-      - [准备工作](#准备工作)
-      - [安装插件](#安装插件)
-      - [官方 demo 初始化\&调试](#官方-demo-初始化调试)
-    - [VSCode + Maven + Scala 版本](#vscode--maven--scala-版本)
-      - [准备工作](#准备工作-1)
-      - [安装插件](#安装插件-1)
-      - [官方 demo 初始化\&调试](#官方-demo-初始化调试-1)
-    - [IDEA + Gradle + Scala 版本](#idea--gradle--scala-版本)
-    - [IDEA + Maven + Scala 版本](#idea--maven--scala-版本)
-  - [从 0 到 1 搭建自己的 Gatling 工程](#从-0-到-1-搭建自己的-gatling-工程)
-    - [Gradle + Scala 版本](#gradle--scala-版本)
-      - [创建一个空的 Gradle 工程](#创建一个空的-gradle-工程)
-      - [配置项目 build.gradle](#配置项目-buildgradle)
-      - [gradle build 项目并初始化](#gradle-build-项目并初始化)
-      - [初始化目录](#初始化目录)
-      - [编写脚本](#编写脚本)
-      - [调试脚本](#调试脚本)
-    - [Maven + Scala 版本](#maven--scala-版本)
-      - [创建一个空的 Maven 工程](#创建一个空的-maven-工程)
-      - [配置项目 pom.xml](#配置项目-pomxml)
-      - [初始化目录](#初始化目录-1)
-      - [编写脚本](#编写脚本-1)
-      - [调试脚本](#调试脚本-1)
-  - [进阶用法](#进阶用法)
-    - [测试报告解析](#测试报告解析)
-      - [总览](#总览)
-        - [总览图](#总览图)
-        - [请求数\&响应时间分布图](#请求数响应时间分布图)
-        - [请求标准统计分析图](#请求标准统计分析图)
-        - [活跃用户数统计图](#活跃用户数统计图)
-        - [响应时间分布图](#响应时间分布图)
-        - [响应时间百分位对比图](#响应时间百分位对比图)
-        - [每秒请求数图](#每秒请求数图)
-        - [每秒响应数图](#每秒响应数图)
-      - [单个请求分析报告](#单个请求分析报告)
-    - [性能场景设置](#性能场景设置)
-      - [Injection 注入](#injection-注入)
-        - [什么是 Injection](#什么是-injection)
-        - [常用 Injection 场景](#常用-injection-场景)
-          - [Open Model 开放模型场景](#open-model-开放模型场景)
-          - [Closed Model 闭合模型场景](#closed-model-闭合模型场景)
-        - [Meta DSL 场景](#meta-dsl-场景)
-        - [Concurrent Scenarios 并发场景](#concurrent-scenarios-并发场景)
-        - [其他场景](#其他场景)
-    - [持续集成](#持续集成)
-      - [接入 github action](#接入-github-action)
-        - [Gradle + Scala 版本](#gradle--scala-版本-1)
-        - [Maven + Scala 版本](#maven--scala-版本-1)
-    - [录制脚本 Recorder](#录制脚本-recorder)
-  - [参考](#参考)
+> A quick start guide to using the gatling tool for performance testing.
 
-## Gatling 介绍
+An introduction to using the gatling tool for performance testing, including environment setup, project initialization, examples, advanced usage, and more!
 
-Gatling 是一个用于性能测试和负载测试的开源工具，特别适用于测试 Web 应用程序。它是一个基于 Scala 编程语言的高性能工具，用于模拟并测量应用程序在不同负载下的性能。
+Project demo reference:
 
-以下是 Gatling 的一些重要特点和优势：
+- [gatling maven scala demo](https://github.com/Automation-Test-Starter/gatling-maven-scala-demo)
+- [gatling gradle scala demo](https://github.com/Automation-Test-Starter/gatling-gradle-scala-demo)
 
-- 基于 Scala 编程语言：Gatling 的测试脚本使用 Scala 编写，这使得它具有强大的编程能力，允许用户编写复杂的测试场景和逻辑。
-- 高性能：Gatling 被设计为高性能的负载测试工具。它使用了非阻塞的 I/O 和异步编程模型，能够模拟大量并发用户，从而更好地模拟真实世界中的负载情况。
-- 易于学习和使用：尽管 Gatling 的测试脚本是使用 Scala 编写的，但它的 DSL（领域特定语言）非常简单，容易上手。即使你不熟悉 Scala，也可以快速学会如何创建测试脚本。
-- 丰富的功能：Gatling 提供了丰富的功能，包括请求和响应处理、数据提取、条件断言、性能报告生成等。这些功能使你能够创建复杂的测试场景，并对应用程序的性能进行全面的评估。
-- 多协议支持：除了 HTTP 和 HTTPS，Gatling 还支持其他协议，如 WebSocket，JMS，和 SMTP。这使得它适用于测试各种不同类型的应用程序。
-- 实时结果分析：Gatling 可以在测试运行期间提供实时的性能数据和图形化报告，帮助你快速发现性能问题。
-- 开源和活跃的社区：Gatling 是一个开源项目，拥有一个活跃的社区，不断更新和改进工具。
-- 支持 CI/CD 集成：Gatling 可以与 CI/CD 工具（如 Jenkins）集成，以便在持续集成和持续交付流程中执行性能测试。
+<!-- markdownlint-disable MD003 -->
+# Table of Contents
+<!-- markdownlint-disable MD003 -->
+- [Table of Contents](#table-of-contents)
+  - [Gatling Introduction](#gatling-introduction)
+  - [Environment setup](#environment-setup)
+    - [VSCode + Gradle + Scala Version](#vscode--gradle--scala-version)
+      - [Preparation](#preparation)
+      - [install plugins](#install-plugins)
+      - [official demo initialization \& debugging](#official-demo-initialization--debugging)
+    - [VSCode + Maven + Scala version](#vscode--maven--scala-version)
+      - [Preparation](#preparation-1)
+      - [install plugins](#install-plugins-1)
+      - [Official demo initialization \& debugging](#official-demo-initialization--debugging-1)
+    - [IDEA + Gradle + Scala version](#idea--gradle--scala-version)
+    - [IDEA + Maven + Scala version](#idea--maven--scala-version)
+  - [Build your own Gatling project from 0 to 1](#build-your-own-gatling-project-from-0-to-1)
+    - [Gradle + Scala versions](#gradle--scala-versions)
+      - [Create an empty Gradle project](#create-an-empty-gradle-project)
+      - [Configure the project build.gradle](#configure-the-project-buildgradle)
+      - [gradle build project and initialize](#gradle-build-project-and-initialize)
+      - [Initialization Directory](#initialization-directory)
+      - [Writing Scripts](#writing-scripts)
+      - [Debugging Scripts](#debugging-scripts)
+    - [Maven + Scala version](#maven--scala-version)
+      - [Create an empty Maven project](#create-an-empty-maven-project)
+      - [Configure the project pom.xml](#configure-the-project-pomxml)
+      - [Initialization Directory](#initialization-directory-1)
+      - [Writing Scripts](#writing-scripts-1)
+      - [Debugging Scripts](#debugging-scripts-1)
+  - [Advanced Usage](#advanced-usage)
+    - [Test report analysis](#test-report-analysis)
+      - [Overview](#overview)
+        - [Overall view](#overall-view)
+        - [Response time ranges](#response-time-ranges)
+        - [Summary](#summary)
+        - [Active users over time](#active-users-over-time)
+        - [Response time distribution](#response-time-distribution)
+        - [Response time percentiles over time](#response-time-percentiles-over-time)
+        - [Requests per second over time](#requests-per-second-over-time)
+        - [Response per second over time](#response-per-second-over-time)
+      - [Single request analysis report](#single-request-analysis-report)
+    - [Performance Scenario Setting](#performance-scenario-setting)
+      - [Injection](#injection)
+        - [What is Injection](#what-is-injection)
+        - [Common Injection Scenario](#common-injection-scenario)
+          - [Open Model Scenario](#open-model-scenario)
+          - [Closed Model Scenario](#closed-model-scenario)
+        - [Meta DSL Scenario](#meta-dsl-scenario)
+        - [Concurrent Scenario](#concurrent-scenario)
+        - [Other Scenarios](#other-scenarios)
+    - [CI/CD Integration](#cicd-integration)
+      - [Accessing github action](#accessing-github-action)
+        - [Gradle + Scala version](#gradle--scala-version)
+        - [Maven + Scala version](#maven--scala-version-1)
+    - [Recorder](#recorder)
+  - [reference](#reference)
 
-总的来说，Gatling 是一个功能强大的性能测试工具，适用于测试各种类型的应用程序，帮助开发团队识别和解决性能问题，以确保应用程序在生产环境中具有稳定的性能和可伸缩性。
+## Gatling Introduction
 
-## 环境搭建
+Gatling is an open source tool for performance and load testing, especially for testing web applications. It is a high-performance tool based on the Scala programming language for simulating and measuring the performance of applications under different loads.
 
-> 由于我是 macbook，后面的介绍几本会以 macbook demo 为例，windows 的同学可以自行参考
+Here are some of the key features and benefits of Gatling:
 
-### VSCode + Gradle + Scala 版本
+- Based on Scala programming language: Gatling's test scripts are written in Scala, which makes it a powerful programming tool that allows users to write complex test scenarios and logic.
+- High Performance: Gatling is designed as a high performance load testing tool. It uses non-blocking I/O and an asynchronous programming model that is capable of simulating large numbers of concurrent users to better mimic real-world load situations.
+- Easy to learn and use: Although Gatling's test scripts are written in Scala, its DSL (Domain Specific Language) is very simple and easy to learn. Even if you are not familiar with Scala, you can quickly learn how to create test scripts.
+- Rich Features: Gatling provides a rich set of features, including request and response processing, data extraction, conditional assertions, performance report generation, and more. These features enable you to create complex test scenarios and perform comprehensive evaluation of application performance.
+- Multi-Protocol Support: In addition to HTTP and HTTPS, Gatling supports other protocols such as WebSocket, JMS, and SMTP, making it suitable for testing a wide range of different types of applications.
+- Real-time results analysis: Gatling provides real-time performance data and graphical reports during test runs to help you quickly identify performance issues.
+- Open source and active community: Gatling is an open source project with an active community that constantly updates and improves the tool.
+- CI/CD Integration Support: Gatling can be integrated with CI/CD tools such as Jenkins to perform performance testing in continuous integration and continuous delivery processes.
 
-#### 准备工作
+Overall, Gatling is a powerful performance testing tool for testing a wide range of application types, helping development teams identify and resolve performance issues to ensure consistent performance and scalability of applications in production environments.
 
-- [x] 开发工具：VSCode
-- [x] 安装 Gradle 版本>=6.0，我使用的 Gradle 8.44
-- [x] 安装 JDK 版本>=8，我使用的 JDK 19
+## Environment setup
 
-#### 安装插件
+> Since I'm a macbook user, I'll use the macbook demo as an example in the introduction, but windows users can refer to it on their own.
 
-- [x] VSCode 搜索 Scala (Metals) 插件进行安装
-- [x] VSCode 搜索 Gradle for Java 插件进行安装
+### VSCode + Gradle + Scala Version
 
-#### 官方 demo 初始化&调试
+#### Preparation
 
-> 前面先会用官方 demo 工程来做初始化和调试，后面再介绍如何自己创建工程
+- [x] Development tool: VSCode
+- [x] Install Gradle version >= 6.0, I am using Gradle 8.44.
+- [x] Install JDK version >= 8, I use JDK 19
 
-- 克隆官方 demo 工程
+#### install plugins
+
+- [x] VSCode search for Scala (Metals) plugin for installation
+- [x] VSCode search for Gradle for Java plugin for installation
+
+#### official demo initialization & debugging
+
+> We will use the official demo project for initialization and debugging first, and then we will introduce how to create your own project later.
+
+- Clone the official demo project
 
 ```bash
 git clone git@github.com:gatling/gatling-gradle-plugin-demo-scala.git
 ```
 
-- 使用 VSCode 打开克隆下来的官方 demo 工程
+- Open the cloned official demo project with VSCode.
 
-- 用 VSCode 打开本项目 Terminal 窗口，执行以下命令
+- Open the project's Terminal window with VSCode and execute the following command
 
 ```bash
 gradle build
@@ -113,82 +128,82 @@ gradle build
 
 ![readme-build](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-build.png)
 
-- 运行工程中的 demo
+- Run the demo in the project
 
 ```bash
 gradle gatlingRun
 ```
 
-- 查看命令行运行结果
+- Viewing the results of a command line run
 
 ![readme-report](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report.png)
 
-- 点击命令行报告中的 html 报告链接，并使用浏览器打开，即可查看详细的报告信息
+- Click on the html report link in the command line report and open it with your browser to view the detailed report information
 
 ![readme-report1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report1.png)
 
-### VSCode + Maven + Scala 版本
+### VSCode + Maven + Scala version
 
-#### 准备工作
+#### Preparation
 
-- [x] 开发工具：VSCode
-- [x] 安装 Maven，我使用的 Maven 3.9.5
-- [x] JDK 版本>=8，我使用的 JDK 19
+- [x] Development tool: VSCode
+- [x] Install Maven, I use Maven 3.9.5.
+- [x] JDK version >= 8, I use JDK 19
 
-#### 安装插件
+#### install plugins
 
-- [x] VSCode 搜索 Scala (Metals) 插件进行安装
-- [x] VSCode 搜索 Maven for Java 插件进行安装
+- [x] VSCode search for Scala (Metals) plugins to install
+- [x] VSCode search for Maven for Java plugins to install
 
-#### 官方 demo 初始化&调试
+#### Official demo initialization & debugging
 
-> 前面先会用官方 demo 工程来做初始化和调试，后面再介绍如何自己创建工程
+> We will use the official demo project for initialization and debugging first, and then we will introduce how to create your own project.
 
-- 克隆官方 demo 工程
+- Clone the official demo project
 
 ```bash
 git clone git@github.com:gatling/gatling-maven-plugin-demo-scala.git
 ```
 
-- 使用 VSCode 打开克隆下来的官方 demo 工程
+- Use VSCode to open the cloned official demo project.
 
-- 用 VSCode 打开本项目 Terminal 窗口，执行以下命令运行工程中的 demo
+- Open the Terminal window of this project with VSCode and execute the following command to run the demo in the project
 
 ```bash
 mvn gatling:test
 ```
 
-- 查看命令行运行结果
+- Viewing the results of a command line run
 
 ![readme-report2](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report2.png)
 
-- 点击命令行报告中的 html 报告链接，并使用浏览器打开，即可查看详细的报告信息
+- Click on the html report link in the command line report and open it with your browser to view the detailed report information
 
 ![readme-report1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report1.png)
 
-### IDEA + Gradle + Scala 版本
+### IDEA + Gradle + Scala version
 
-与 VSCode 下基本类似，这里就不再赘述了
+This is similar to the VSCode version, so I won't repeat it here.
 
-差异点如下：
+The differences are as follows:
 
-- IDEA 搜索 Scala 插件进行安装
-- 新的运行方式：右键选择项目目录下的 Engine.scala 文件，选择 Run 'Engine'也可以运行 demo（运行过程中需要按回车键确认哦）
+- IDEA searches for Scala plugins to install
+- New way to run: right click and select Engine.scala file in the project directory, select Run 'Engine' to run the demo (you need to press enter to confirm the run).
 
-### IDEA + Maven + Scala 版本
+### IDEA + Maven + Scala version
 
-与 VSCode 下基本类似，这里就不再赘述了
+This is similar to the VSCode version, so I won't repeat it here.
 
-差异点如下：
+The differences are as follows:
 
-- IDEA 搜索 Scala 插件进行安装
-- 新的运行方式：右键选择项目目录下的 Engine.scala 文件，选择 Run 'Engine'也可以运行 demo（运行过程中需要按回车键确认哦）
+- IDEA searches for Scala plugins to install
+- New way to run: right-click the Engine.scala file in the project directory and select Run 'Engine' to run the demo (you need to press enter to confirm during the run).
 
-## 从 0 到 1 搭建自己的 Gatling 工程
+## Build your own Gatling project from 0 to 1
 
-### Gradle + Scala 版本
+### Gradle + Scala versions
 
-#### 创建一个空的 Gradle 工程
+#### Create an empty Gradle project
 
 ```bash
 mkdir gatling-gradle-demo
@@ -196,74 +211,74 @@ cd gatling-gradle-demo
 gradle init
 ```
 
-#### 配置项目 build.gradle
+#### Configure the project build.gradle
 
-在 项目中 build.gradle 文件中添加以下内容
+Add the following to the build.gradle file in the project
 
-> 可 copy 本项目中的 build.gradle 文件内容，更多配置可参考[官方文档](https://gatling.io/docs/gatling/reference/current/extensions/gradle_plugin/)
+> You can copy the content of the build.gradle file in this project, for more configurations, please refer to the [official documentation](https://gatling.io/docs/gatling/reference/current/extensions/gradle_plugin/).
 
 ```groovy
-// 插件配置
+// Plugin Configuration
 plugins {
-    id 'scala' // scala插件声明（基于开发工具插件）
-    id 'io.gatling.gradle' version '3.9.5.6'  // 基于gradle的gatling框架插件版本声明
+    id 'scala' // scala plugin declaration (based on the development tools plugin)
+    id 'io.gatling.gradle' version '3.9.5.6' // declaration of the version of the gradle-based gatling framework plugin
 }
-//仓库源配置
+// Repository source configuration
 repositories {
-  // 使用 maven 中心仓库源
+  // Use the maven central repository source
   mavenCentral()
 }
-// gatling 配置
+// gatling configuration
 gatling {
-  // logback root level，如果配置文件夹中不存在 logback.xml，则默认 Gatling 控制台日志级别
+  // logback root level, defaults to the Gatling console log level if logback.xml does not exist in the configuration folder
   logLevel = 'WARN' 
 
-  // 执行记录 HTTP 请求的详细程度
+  // Enforce logging of HTTP requests at a level of detail
   // set to 'ALL' for all HTTP traffic in TRACE, 'FAILURES' for failed HTTP traffic in DEBUG
   logHttp = 'FAILURES' 
 
-  // Simulations 过滤器
+  // Simulations filter
   simulations = {
       include "**/simulation/*.scala"
   }
 }
-// 依赖配置
+// Dependencies
 dependencies {     
- // 图表库，用于生成报告图表
+ // Charts library for generating report charts
  gatling 'io.gatling.highcharts:gatling-charts-highcharts:3.8.3'
  }
 ```
 
-#### gradle build 项目并初始化
+#### gradle build project and initialize
 
-- 用编辑器打开本项目 Terminal 窗口，执行以下命令确认项目 build 成功
+- Open the Terminal window of the project with an editor and execute the following command to confirm that the project build was successful
 
 ```bash
 gradle build
 ```
 
-- 初始化完成：完成向导后，Gradle 将在项目目录中生成一个基本的 Gradle 项目结构
+- Initialization complete: After completing the wizard, Gradle will generate a basic Gradle project structure in the project directory
   
 ![readme-project-tree1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-project-tree1.png)
 
-#### 初始化目录
+#### Initialization Directory
   
-在 src/gatling/scala 目录下创建一个 simulation 目录，用于存放测试脚本
+Create a simulation directory in the src/gatling/scala directory to hold test scripts
 
-> Gatling 测试通常位于 src/gatling 目录中。你需要在项目根目录下手动创建 src 目录，然后在 src 目录下创建 gatling 目录。在 gatling 目录下，你可以创建你的测试模拟文件夹 simulation，以及其他文件夹，如 data、bodies、resources 等。
+> Gatling tests are usually located in the src/gatling directory. You need to manually create the src directory in the project root, and then create the gatling directory under the src directory. In the gatling directory, you can create your test simulation folder simulation, as well as other folders such as data, bodies, resources, and so on.
 
-#### 编写脚本
+#### Writing Scripts
 
-- 在 simulation 目录下创建一个 demo.scala 文件，用于编写测试脚本
+- Create a demo.scala file in the simulation directory to write your test scripts.
 
-- 示例脚本如下，可供参考
+- For reference, the following is a sample script
 
-> 脚本包含了两个场景，一个是 get 请求，一个是 post 请求
-> get 接口验证接口返回状态码为 200，post 接口验证接口返回状态码为 201
-> get 接口使用了 rampUsers，post 接口使用了 constantConcurrentUsers
-> rampUsers：在指定时间内逐渐增加并发用户数，constantConcurrentUsers：在指定时间内保持并发用户数不变
-> 两个接口的并发用户数都是 10 个，持续时间都是 10 秒
-> 两个接口的请求间隔都是 2 秒
+> The script contains two scenarios, one for get requests and one for post requests.
+> The get interface validates that the interface returns a status code of 200 and the post interface validates that the interface returns a status code of 201.
+> The get interface uses rampUsers, the post interface uses constantConcurrentUsers.
+> rampUsers: incrementally increase the number of concurrent users over a specified period of time, constantConcurrentUsers: keep the number of concurrent users constant over a specified period of time.
+> The number of concurrent users is 10 for both interfaces, and the duration is 10 seconds for both interfaces.
+> The request interval is 2 seconds for both interfaces.
 
 ```scala
 package simulation 
@@ -296,9 +311,9 @@ class demo extends Simulation {
 }
 ```
 
-#### 调试脚本
+#### Debugging Scripts
 
-执行以下命令，运行测试脚本并查看报告
+Execute the following command to run the test script and view the report
 
 ```bash
 gradle gatlingRun
@@ -306,26 +321,26 @@ gradle gatlingRun
 
 ![readme-report3](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report3.png)
 
-### Maven + Scala 版本
+### Maven + Scala version
 
-#### 创建一个空的 Maven 工程
+#### Create an empty Maven project
 
 ```bash
 mvn archetype:generate -DgroupId=demo.gatlin.maven -DartifactId=gatling-maven-demo
 ```
 
-初始化完成：完成向导后，Maven 将在新建项目目录并生成一个基本的 Maven 项目结构
+Initialization complete: After completing the wizard, Maven will create a new project directory and generate a basic Maven project structure in the
   
 ![readme-project-tree2](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-project-tree2.png)
 
-#### 配置项目 pom.xml
+#### Configure the project pom.xml
 
-在 项目中 pom.xml 文件中添加以下内容
+Add the following contents to the pom.xml file in the project
 
-> 可 copy 本项目中的 pom.xml 文件内容，更多配置可参考[官方文档](https://gatling.io/docs/gatling/reference/current/extensions/maven_plugin/)
+> You can copy the contents of the pom.xml file in this project, for more configuration, please refer to the [official documentation](https://gatling.io/docs/gatling/reference/current/extensions/maven_plugin/).
 
 ```xml
-<!-- 依赖配置 -->
+<!-- dependencies Configuration -->
 <dependencies>
   <dependency>
     <groupId>io.gatling.highcharts</groupId>
@@ -334,7 +349,7 @@ mvn archetype:generate -DgroupId=demo.gatlin.maven -DartifactId=gatling-maven-de
     <scope>test</scope>
   </dependency>
 </dependencies>
-<!-- 插件配置 -->
+<!-- Plugin Configuration -->
   <build>
     <plugins>
       <plugin>
@@ -373,24 +388,24 @@ mvn archetype:generate -DgroupId=demo.gatlin.maven -DartifactId=gatling-maven-de
   </build>
 ```
 
-#### 初始化目录
+#### Initialization Directory
   
-在 src/test/scala 目录下创建一个 simulation 目录，用于存放测试脚本
+Create a simulation directory in the src/test/scala directory to hold the test scripts
 
-> scala 测试通常位于 src/test 目录中。你需要在项目 test 目录下创建 scala 目录。在 scala 目录下，你可以创建你的测试模拟文件夹 simulation，以及其他文件夹，如 data、bodies、resources 等。
+> scala tests are usually located in the src/test directory. You need to create a scala directory under the project test directory. In the scala directory, you can create your test simulation folder simulation, as well as other folders such as data, bodies, resources, and so on.
 
-#### 编写脚本
+#### Writing Scripts
 
-- 在 simulation 目录下创建一个 demo.scala 文件，用于编写测试脚本
+- Create a demo.scala file in the simulation directory to write your test scripts.
 
-- 示例脚本如下，可供参考
+- For reference, the following is a sample script
 
-> 脚本包含了两个场景，一个是 get 请求，一个是 post 请求
-> get 接口验证接口返回状态码为 200，post 接口验证接口返回状态码为 201
-> get 接口使用了 rampUsers，post 接口使用了 constantConcurrentUsers
-> rampUsers：在指定时间内逐渐增加并发用户数，constantConcurrentUsers：在指定时间内保持并发用户数不变
-> 两个接口的并发用户数都是 10 个，持续时间都是 10 秒
-> 两个接口的请求间隔都是 2 秒
+> The script contains two scenarios, one for get requests and one for post requests.
+> The get interface validates that the interface returns a status code of 200 and the post interface validates that the interface returns a status code of 201.
+> The get interface uses rampUsers, the post interface uses constantConcurrentUsers.
+> rampUsers: incrementally increase the number of concurrent users over a specified period of time, constantConcurrentUsers: keep the number of concurrent users constant over a specified period of time.
+> The number of concurrent users is 10 for both interfaces, and the duration is 10 seconds for both interfaces.
+> The request interval is 2 seconds for both interfaces.
 
 ```scala
 package simulation 
@@ -423,9 +438,9 @@ class demo extends Simulation {
 }
 ```
 
-#### 调试脚本
+#### Debugging Scripts
 
-执行以下命令，运行测试脚本并查看报告
+Execute the following command to run the test script and view the report
 
 ```bash
 mvn gatling:test
@@ -433,97 +448,97 @@ mvn gatling:test
 
 ![readme-report3](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-report3.png)
 
-## 进阶用法
+## Advanced Usage
 
-### 测试报告解析
+### Test report analysis
 
-#### 总览
+#### Overview
 
-##### 总览图
+##### Overall view
 
-> 性能测试执行结束后打开详细的 html 报告，可以看到详细的性能测试报告；
-> 可通过指标、活跃用户和随时间变化的请求/响应以及分布来分析您的报告
+> Open the detailed html report after the performance test execution is finished;
+> Your report can be analyzed by metrics, active users and requests/responses over time, as well as distributions
 
 ![readme-test-report1](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report1.png)
 
-- 页面中间标题处显示 Simulation 的名字
-- 左侧的列表展示不同类型的报告菜单，可点击切换
-- 页面中部展示性能测试报告的总览信息，包括：请求总数、成功请求总数、失败请求总数、最短响应时间、最长响应时间、平均响应时间、吞吐量、标准差、百分比分布等。也会展示 gatling 的版本及本次报告运行的时间和时长
-- 全局菜单指向综合统计数据。
-- 详细信息菜单指向每个请求类型的统计信息。
+- The name of Simulation is displayed in the center of the page in the header
+- The list on the left side shows a menu of different types of reports, which can be switched by clicking on them.
+- The middle of the page shows an overview of the performance test report, including: total number of requests, total number of successful requests, total number of unsuccessful requests, shortest response time, longest response time, average response time, throughput, standard deviation, percentage distribution, etc. It also shows the version of gatling and the time and duration of this report. The version of gatling and the time and duration of this report run are also displayed.
+- The Global menu points to aggregate statistics.
+- The Details menu points to statistics for each request type.
 
-##### 请求数&响应时间分布图
+##### Response time ranges
 
 ![readme-test-report2](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report2.png)
 
-此图表展示了响应时间在标准范围内的分布情况
-左侧的列表显示所有的请求以及请求响应的时间分布，红色代表失败的请求
-右边 Number of request 代表用户并发数量，以及各个请求的请求数量及其成功失败状态
+This chart shows the distribution of response times within the standard range
+The list on the left shows all requests and the distribution of request response times, with the red color representing failed requests.
+On the right, Number of requests represents the number of concurrent users, as well as the number of requests for each request and their success and failure status.
 
-> 这些范围可以在 gatling.conf 文件中配置
+> These ranges can be configured in the gatling.conf file
 
-##### 请求标准统计分析图
+##### Summary
 
 ![readme-test-report3](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report3.png)
 
-此图表显示了一些标准统计数据，例如全局和每个请求的最小值、最大值、平均值、标准差和百分位数。
-stats 显示了所有请求具体的成功失败情况 OK 代表成功，KO 代表失败，百分比 99th pct 代表对于这一个 API 总的请求中有百分之 99 的请求 response time 是这个数值
+This chart shows some standard statistics such as minimum, maximum, average, standard deviation and percentile for global and per request.
+stats shows the specific success and failure of all requests OK for success, KO for failure, and 99th pct for 99th percentile response time for total requests for this API.
 
-> 这些百分位数可以在 gatling.conf 文件中配置。
+> These percentiles can be configured in the gatling.conf file.
 
-##### 活跃用户数统计图
+##### Active users over time
 
 ![readme-test-report4](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report4.png)
 
-此图表展示了活跃用户数指的是在测试时间段内，正在进行请求的用户数。在测试开始时，活跃用户数为 0。当用户开始发送请求时，活跃用户数开始增加。当用户完成请求时，活跃用户数开始减少。活跃用户数的最大值是在测试期间同时发送请求的用户数。
+This chart shows that the number of active users refers to the number of users who are making requests during the test time period. At the beginning of the test, the number of active users is 0. When users start sending requests, the number of active users starts to increase. When a user completes a request, the number of active users begins to decrease. The maximum number of active users is the number of users sending requests at the same time during the test period.
 
-##### 响应时间分布图
+##### Response time distribution
 
 ![readme-test-report5](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report5.png)
 
-此图表显示了响应时间的分布，包括请求成功的响应时间和请求失败的响应时间。
+This chart shows the distribution of response times, including response times for successful requests and response times for failed requests.
 
-##### 响应时间百分位对比图
+##### Response time percentiles over time
 
 ![readme-test-report6](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report6.png)
 
-此图表显示一段时间内的各种响应时间百分位数，但仅适用于成功的请求。由于失败的请求可能会提前结束或由超时引起，因此它们会对百分位数的计算产生巨大影响。
+This chart shows various response time percentiles over time, but only for successful requests. Since failed requests may end early or be caused by timeouts, they can have a huge impact on the percentile calculation.
 
-##### 每秒请求数图
+##### Requests per second over time
 
 ![readme-test-report7](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report7.png)
 
-此图表展示了每秒的请求数，包括成功的请求数和失败的请求数。
+This chart shows the number of requests per second, including the number of successful requests and the number of failed requests.
 
-##### 每秒响应数图
+##### Response per second over time
 
 ![readme-test-report8](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report8.png)
 
-此图表展示了每秒的响应数，包括成功的响应数和失败的响应数。
+This chart shows the number of responses per second, including the number of successful responses and the number of failed responses.
 
-#### 单个请求分析报告
+#### Single request analysis report
 
-> 可点击报告页面上的 details 菜单切换到 details tab 页面，查看单个请求的详细报告
+> You can click the details menu on the report page to switch to the details tab and view a detailed report for a single request.
 
 ![readme-test-report9](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-test-report9.png)
 
-Details 页面主要展示了每个请求的统计数据，与全局报告相似地包括了响应时间分布图，响应时间百分位图，每秒请求数图，每秒响应数图。不同的是最底下有一张图是描述单个请求相对于全局所有请求的响应时间。该图横坐标是每秒全局所有请求数，纵坐标是单个请求的响应时间。
+The Details page primarily shows per-request statistics, and similarly to the global report includes a graph of response time distribution, response time percentile, requests per second, and responses per second. The difference is that there is a graph at the bottom that depicts the response time of a single request relative to all requests globally. The horizontal coordinate of this graph is the number of all requests per second globally, and the vertical coordinate is the response time of a single request.
 
-### 性能场景设置
+### Performance Scenario Setting
 
-#### Injection 注入
+#### Injection
 
-##### 什么是 Injection
+##### What is Injection
 
-在 Gatling 性能测试中，"Injection"是指将虚拟用户（或负载）引入系统的一种方式。它定义了模拟用户如何被引入测试场景，包括用户的数量、速率和方式。Injection 是 Gatling 中用于控制负载和并发度的关键概念，允许你模拟不同的用户行为和负载模型。
+In Gatling performance testing, "Injection" refers to a method of introducing virtual users (or load) into the system. It defines how simulated users are introduced into a test scenario, including the number, rate, and manner of users.Injection is a key concept used in Gatling to control load and concurrency, allowing you to simulate different user behaviors and load models.
 
-用户注入配置文件的定义是通过 injectOpen 和 injectClosed 方法（Scala 中的 inject）完成的。此方法将按顺序处理的注入步骤序列作为参数。每个步骤都定义了一组用户，以及如何将这些用户注入到场景中。
+User injection profiles are defined using the injectOpen and injectClosed methods (inject in Scala). This method takes as arguments a sequence of injection steps that are processed sequentially. Each step defines a set of users and how these users are injected into the scene.
 
-官网更多介绍：<https://gatling.io/docs/gatling/reference/current/core/injection/>
+More from the web site: <https://gatling.io/docs/gatling/reference/current/core/injection/>
 
-##### 常用 Injection 场景
+##### Common Injection Scenario
 
-###### Open Model 开放模型场景
+###### Open Model Scenario
 
 ```scala
 setUp(
@@ -540,16 +555,16 @@ setUp(
 )
 ```
 
-1. nothingFor(duration)：设置一段停止的时间，这段时间什么都不做
-2. atOnceUsers(nbUsers)：立即注入一定数量的虚拟用户
-3. rampUsers(nbUsers) during(duration)：在指定时间内，设置一定数量逐步注入的虚拟用户
-4. constantUsersPerSec(rate) during(duration)：定义一个在每秒钟恒定的并发用户数，持续指定的时间
-5. constantUsersPerSec(rate) during(duration) randomized：定义一个在每秒钟围绕指定并发数随机增减的并发，持续指定时间
-6. rampUsersPerSec(rate1) to (rate2) during(duration)：定义一个并发数区间，运行指定时间，并发增长的周期是一个规律的值
-7. rampUsersPerSec(rate1) to(rate2) during(duration) randomized：定义一个并发数区间，运行指定时间，并发增长的周期是一个随机的值
-8. stressPeakUsers(nbUsers).during(duration) ：按照拉伸到给定持续时间的[阶跃函数](https://en.wikipedia.org/wiki/Heaviside_step_function)的平滑近似注入给定数量的用户。
+1. nothingFor(duration): set a period of time to stop, this time to do nothing
+2. atOnceUsers(nbUsers): immediately inject a certain number of virtual users
+3. rampUsers(nbUsers) during(duration): set a certain number of virtual users to be injected gradually during a specified period of time.
+4. constantUsersPerSec(rate) during(duration): Define a constant number of concurrent users per second for a specified period of time.
+5. constantUsersPerSec(rate) during(duration) randomized: defines a randomized concurrency increase/decrease around a specified number of concurrencies per second, for a specified period of time
+6. rampUsersPerSec(rate1) to (rate2) during(duration): defines a concurrency interval that runs for the specified time, with the concurrency growth period being a regular value.
+7. rampUsersPerSec(rate1) to (rate2) during(duration) randomized: define a concurrency interval, run for a specified time, the concurrency growth period is a random value
+8. stressPeakUsers(nbUsers).during(duration) : injects a given number of users according to a smooth approximation of a [step function](https://en.wikipedia.org/wiki/Heaviside_step_function) that stretches to a given duration. users.
 
-###### Closed Model 闭合模型场景
+###### Closed Model Scenario
 
 ```scala
 setUp(
@@ -560,23 +575,24 @@ setUp(
 )
 ```
 
-1. constantConcurrentUsers(nbUsers).during(duration) ：注入以使系统中的并发用户数恒定
-2. rampConcurrentUsers(fromNbUsers).to(toNbUsers).during(duration) ：注入，使系统中的并发用户数从一个数字线性增加到另一个数字
+1. constantConcurrentUsers(fromNbUsers).during(duration) : inject to make the number of concurrent users in the system constant
+2. rampConcurrentUsers(fromNbUsers).to(toNbUsers).during(duration) : inject so that the number of concurrent users in the system increases linearly from one number to the next
 
-##### Meta DSL 场景
+##### Meta DSL Scenario
 
-"Meta DSL"是一种特殊的领域特定语言（DSL），用于描述性能测试场景的元数据（metadata）和全局配置。Meta DSL 允许你定义性能测试中的一些全局设置和参数，以影响整个测试过程，而不是特定于某个场景。
+"Meta DSL is a special Domain Specific Language (DSL) for describing the metadata and global configuration of performance test scenarios.Meta DSL allows you to define a number of global settings and parameters in a performance test that affect the entire test process, rather than being specific to a particular scenario.
 
-可以使用 Meta DSL 的元素以更简单的方式编写测试。如果您想要链接级别和斜坡以达到应用程序的极限（有时称为容量负载测试的测试），您可以使用常规 DSL 手动完成，并使用 map 和 flatMap 进行循环。
+The elements of the Meta DSL can be used to write tests in a simpler way. If you want to link levels and ramps to reach the limits of your application (a test sometimes referred to as a capacity load test), you can do this manually using the regular DSL and looping with map and flatMap.
+
 
 - incrementUsersPerSec
 
 ```scala
 setUp(
-   // 生成一个开放的工作量注入配置文件
-  // 每秒分别有 10、15、20、25 和 30 个用户到达
-  // 每个级别持续 10 秒
-  // 每级持续 10 秒
+  // Generate an open workload injection profile
+  // 10, 15, 20, 25 and 30 users arrive every second
+  // Each level lasts 10 seconds
+  // Each level lasts 10 seconds
   scn.inject(
     incrementUsersPerSec(5.0)
       .times(5)
@@ -590,10 +606,10 @@ setUp(
   
 ```scala
 setUp(
-  // 生成一个封闭的工作负载注入配置文件
-  // 并发用户分别为 10、15、20、25 和 30 级
-  // 每个级别持续 10 秒
-  // 每级持续 10 秒
+  // Generate a closed workload injection profile
+  // Concurrent users at levels 10, 15, 20, 25, and 30
+  // Each level lasts 10 seconds
+  // Each level lasts 10 seconds
   scn.inject(
     incrementConcurrentUsers(5)
       .times(5)
@@ -604,11 +620,11 @@ setUp(
 )
 ```
 
-incrementUsersPerSec 用于开放式工作负载，incrementConcurrentUsers 用于封闭式工作负载（用户数/秒与并发用户数）。
+incrementUsersPerSec is used for open workloads, incrementConcurrentUsers is used for closed workloads (users/sec vs concurrent users).
 
-separatedByRampsLasting 和 startingFrom 都是可选的。如果您不指定斜坡，测试完成后就会立即从一个级别跳到另一个级别。如果您不指定启动用户数，测试将从 0 个并发用户或每秒 0 个用户开始，并立即进入下一步。
+separatedByRampsLasting and startingFrom are both optional. If you do not specify a ramp, the test jumps from one level to another as soon as it finishes. If you do not specify the number of starting users, the test will start with 0 concurrent users or 0 users per second and move to the next step immediately.
 
-##### Concurrent Scenarios 并发场景
+##### Concurrent Scenario
 
 ```scala
 setUp(
@@ -617,26 +633,26 @@ setUp(
 )
 ```
 
-您可以在同一个 setUp 块中配置多个场景同时启动并并发执行。
+You can configure multiple scenes to start simultaneously and execute concurrently in the same setUp block.
 
-##### 其他场景
+##### Other Scenarios
 
-查看官网介绍：<https://gatling.io/docs/gatling/reference/current/core/injection/>
+Check out the website: <https://gatling.io/docs/gatling/reference/current/core/injection/>
 
-### 持续集成
+### CI/CD Integration
 
-#### 接入 github action
+#### Accessing github action
 
-以 github action 为例，其他 CI 工具类似
+Take github action as an example, and other CI tools as well.
 
-##### Gradle + Scala 版本
+##### Gradle + Scala version
 
-> 可参考 demo：<https://github.com/Automation-Test-Starter/gatling-gradle-scala-demo>
+> See the demo at <https://github.com/Automation-Test-Starter/gatling-gradle-scala-demo>.
 
-- 创建.github/workflows 目录：在你的 GitHub 仓库中，创建一个名为 .github/workflows 的目录。这将是存放 GitHub Actions 工作流程文件的地方。
+- Create the .github/workflows directory: In your GitHub repository, create a directory called .github/workflows. This will be where the GitHub Actions workflow files will be stored.
 
-- 创建工作流程文件：在.github/workflows 目录中创建一个 YAML 格式的工作流程文件，例如 gatling.yml。
-- 编辑 gatling.yml 文件：将以下内容复制到文件中。
+- Create the workflow file: Create a YAML-formatted workflow file, such as gatling.yml, in the .github/workflows directory.
+- Edit the gatling.yml file: Copy the following into the file.
 
 ```yaml
 name: Gatling Performance Test
@@ -679,19 +695,19 @@ jobs:
           path: build/reports/gatling
 ```
 
-- 提交代码：将 gatling.yml 文件添加到仓库中并提交。
-- 查看测试报告：在 GitHub 中，导航到你的仓库。单击上方的 Actions 选项卡，然后单击左侧的 Performance Test 工作流。你应该会看到工作流正在运行，等待执行完成，就可以查看结果。
+- Commit the code: Add the gatling.yml file to your repository and commit.
+- View the test report: In GitHub, navigate to your repository. Click the Actions tab at the top and then click the Performance Test workflow on the left. You should see the workflow running, wait for the execution to complete and you can view the results.
 
 ![readme-github-action-gradle](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-github-action-gradle.png)
 
-##### Maven + Scala 版本
+##### Maven + Scala version
 
-> 可参考 demo：<https://github.com/Automation-Test-Starter/gatling-maven-scala-demo>
+> See the demo at <https://github.com/Automation-Test-Starter/gatling-maven-scala-demo>
 
-- 创建.github/workflows 目录：在你的 GitHub 仓库中，创建一个名为 .github/workflows 的目录。这将是存放 GitHub Actions 工作流程文件的地方。
+- Create the .github/workflows directory: In your GitHub repository, create a directory called .github/workflows. This will be where the GitHub Actions workflow files will be stored.
 
-- 创建工作流程文件：在.github/workflows 目录中创建一个 YAML 格式的工作流程文件，例如 gatling.yml。
-- 编辑 gatling.yml 文件：将以下内容复制到文件中。
+- Create the workflow file: Create a YAML-formatted workflow file, such as gatling.yml, in the .github/workflows directory.
+- Edit the gatling.yml file: Copy the following into the file.
 
 ```yaml
 name: Gatling Performance Test
@@ -734,17 +750,17 @@ jobs:
           path: target/gatling
 ```
 
-- 提交代码：将 gatling.yml 文件添加到仓库中并提交。
-- 查看测试报告：在 GitHub 中，导航到你的仓库。单击上方的 Actions 选项卡，然后单击左侧的 Performance Test 工作流。你应该会看到工作流正在运行，等待执行完成，就可以查看结果。
+- Commit the code: Add the gatling.yml file to your repository and commit.
+- View the test report: In GitHub, navigate to your repository. Click the Actions tab at the top and then click the Performance Test workflow on the left. You should see the workflow running, wait for the execution to complete and you can view the results.
 
 ![readme-github-action-maven](https://cdn.jsdelivr.net/gh/naodeng/blogimg@master/uPic/readme-github-action-maven.png)
 
-### 录制脚本 Recorder
+### Recorder
 
-> 待补充
+> To be completed
 
-## 参考
+## reference
 
-- galting 官网：<https://gatling.io/>
-- galting 官方文档：<https://gatling.io/docs/gatling/>
-- galting 官方 github: <https://github.com/gatling/>
+- galting official website: <https://gatling.io/>
+- galting official documentation: <https://gatling.io/docs/gatling/>
+- galting official github: <https://github.com/gatling/>
